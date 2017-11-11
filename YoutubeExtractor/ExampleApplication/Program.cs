@@ -14,39 +14,19 @@ namespace ExampleApplication
             /*
              * We want the first extractable video with the highest audio quality.
              */
-            VideoInfo video = videoInfos
-                .Where(info => info.CanExtractAudio)
-                .OrderByDescending(info => info.AudioBitrate)
-                .First();
 
-            /*
-             * If the video has a decrypted signature, decipher it
-             */
-            if (video.RequiresDecryption)
-            {
-                DownloadUrlResolver.DecryptDownloadUrl(video);
-            }
 
-            /*
-             * Create the audio downloader.
-             * The first argument is the video where the audio should be extracted from.
-             * The second argument is the path to save the audio file.
-             */
-
-            var audioDownloader = new AudioDownloader(video,
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                RemoveIllegalPathCharacters(video.Title) + video.AudioExtension));
+            VideoInfo video = videoInfos.First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 0);
+            var path = "c:\\temp\\audio" + video.AudioExtension;
+                //Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                //RemoveIllegalPathCharacters(video.Title) + video.AudioExtension);
+            var audioDownloader = new VideoDownloader(video, path);
 
             // Register the progress events. We treat the download progress as 85% of the progress
             // and the extraction progress only as 15% of the progress, because the download will
             // take much longer than the audio extraction.
             audioDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(args.ProgressPercentage * 0.85);
-            audioDownloader.AudioExtractionProgressChanged += (sender, args) => Console.WriteLine(85 + args.ProgressPercentage * 0.15);
-
-            /*
-             * Execute the audio downloader.
-             * For GUI applications note, that this method runs synchronously.
-             */
+            audioDownloader.DownloadProgressChanged += (sender, args) => Console.WriteLine(85 + args.ProgressPercentage * 0.15);
             audioDownloader.Execute();
         }
 
@@ -88,7 +68,7 @@ namespace ExampleApplication
         private static void Main()
         {
             // Our test youtube link
-            const string link = "https://www.youtube.com/watch?v=YQHsXMglC9A";
+            const string link = "https://www.youtube.com/watch?v=seeT43UQ-KY";
 
             /*
              * Get the available video formats.
@@ -96,8 +76,8 @@ namespace ExampleApplication
              */
             IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link, false);
 
-            //DownloadAudio(videoInfos);
-            DownloadVideo(videoInfos);
+            DownloadAudio(videoInfos);
+            //DownloadVideo(videoInfos);
         }
 
         private static string RemoveIllegalPathCharacters(string path)
