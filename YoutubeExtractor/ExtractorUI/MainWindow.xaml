@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtractorUI"
         mc:Ignorable="d"
-        Title="Youtube Downloader" Height="337.589" Width="525">
-    <Grid Margin="0,0,0,123" OverridesDefaultStyle="True">
+        Title="Youtube Downloader" Height="220" Width="525" Topmost="True">
+    <Grid Margin="0,0,0,-2" OverridesDefaultStyle="True">
         <TextBox x:Name="url" HorizontalAlignment="Left" Height="23" Margin="114,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304"/>
         <Label Content="Type Youtube URL" HorizontalAlignment="Left" Margin="0,56,0,0" VerticalAlignment="Top"/>
         <Button Content="GO!" HorizontalAlignment="Left" Margin="433,59,0,0" VerticalAlignment="Top" Width="58" Click="Button_Click" RenderTransformOrigin="4.227,-1.55"/>
