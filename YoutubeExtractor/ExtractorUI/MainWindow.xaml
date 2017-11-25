@@ -5,18 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtractorUI"
         mc:Ignorable="d"
-        Title="Youtube Downloader" Height="220" Width="525" Topmost="True">
+        Title="Youtube Downloader" Height="200" Width="525" Topmost="True">
     <Grid Margin="0,0,0,-2" OverridesDefaultStyle="True">
         <TextBox x:Name="url" HorizontalAlignment="Left" Height="23" Margin="114,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304"/>
         <Label Content="Type Youtube URL" HorizontalAlignment="Left" Margin="0,56,0,0" VerticalAlignment="Top"/>
         <Button Content="GO!" HorizontalAlignment="Left" Margin="433,59,0,0" VerticalAlignment="Top" Width="58" Click="Button_Click" RenderTransformOrigin="4.227,-1.55"/>
         <ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="14" Margin="114,100,0,0" VerticalAlignment="Top" Width="304" RenderTransformOrigin="0.5,2.857"/>
-        <Label x:Name="DoneText" Content="Done!" HorizontalAlignment="Left" Margin="114,148,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Message" Content="Msg" HorizontalAlignment="Left" Margin="114,124,0,0" VerticalAlignment="Top"/>
         <Label Content="Chrome Url" HorizontalAlignment="Left" Margin="33,25,0,0" VerticalAlignment="Top" Width="75"/>
         <Label x:Name="ChromeUrl" Content="" HorizontalAlignment="Left" Height="26" Margin="114,25,0,0" VerticalAlignment="Top" Width="304"/>
         <Button x:Name="ChromeUrlButton" Content="GO!" HorizontalAlignment="Left" Margin="433,25,0,0" VerticalAlignment="Top" Width="58" AutomationProperties.Name="ChromeUrlButton" IsCancel="True" Click="ChromeUrlButton_Click"/>
-        <Label x:Name="Loading" Content="Working" HorizontalAlignment="Left" Margin="118,122,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.526,-0.269"/>
-        <Label x:Name="Error" Content="Error - try again." HorizontalAlignment="Left" Margin="173,119,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.763,-0.077" Width="117"/>
 
     </Grid>
 </Window>

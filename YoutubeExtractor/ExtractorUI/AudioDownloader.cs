@@ -11,13 +11,13 @@ namespace ExtractorUI
 {
     public class AudioDownloader
     {
+        static string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        Action<double> progressCallback;
         public AudioDownloader(Action<double> progressCallback)
         {
             this.progressCallback = progressCallback;
         }
-        Action<double> progressCallback;
 
-        static string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public bool Download(string url)
         {
             IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(url, false);
@@ -26,14 +26,12 @@ namespace ExtractorUI
 
         private bool DownloadAudio(IEnumerable<VideoInfo> videoInfos)
         {
-            VideoInfo video = videoInfos.First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 0);
-            var path = Path.Combine(dir,
-                       RemoveIllegalPathCharacters(video.Title) + ".mp3");
-            var audioDownloader = new VideoDownloader(video, path);
+            VideoInfo video = videoInfos.FirstOrDefault(info => info.VideoType == VideoType.Mp4 && (info.Resolution == 0));
+            if (video == null)
+                return false;
 
-            // Register the progress events. We treat the download progress as 85% of the progress
-            // and the extraction progress only as 15% of the progress, because the download will
-            // take much longer than the audio extraction.
+            var path = Path.Combine(dir, RemoveIllegalPathCharacters(video.Title) + ".mp3");
+            var audioDownloader = new VideoDownloader(video, path);
             audioDownloader.DownloadProgressChanged += updateProgress;
             try
             {

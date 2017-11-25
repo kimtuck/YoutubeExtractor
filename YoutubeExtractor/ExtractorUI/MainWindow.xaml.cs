@@ -27,12 +27,12 @@ namespace ExtractorUI
     public partial class MainWindow : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
+        private bool loading;
         public MainWindow()
         {
             InitializeComponent();
-            DoneText.Visibility = Visibility.Hidden;
-            Loading.Visibility = Visibility.Hidden;
-            Error.Visibility = Visibility.Hidden;
+            Message.Visibility = Visibility.Hidden;
+            loading = false;
             MonitorChromeUrl();
         }
 
@@ -43,16 +43,16 @@ namespace ExtractorUI
 
         private void DoDownload(string url)
         {
-            DoneText.Visibility = Visibility.Hidden;
-            Loading.Visibility = Visibility.Visible;
-            Error.Visibility = Visibility.Hidden;
+            Message.Visibility = Visibility.Visible;
+            Message.Content = "Working...";
+            loading = true;
             updateProgress(0);
             var downloader = new AudioDownloader(updateProgress);
             var successful = downloader.Download(url);
-            DoneText.Visibility = Visibility.Visible;
-            Loading.Visibility = Visibility.Hidden;
+            loading = false;
+            Message.Content = "Done.";
             if (!successful)
-                Error.Visibility = Visibility.Visible;
+                Message.Content = "Can't get audio from this video.";
         }
 
         private void updateProgress(double progressPercent)
@@ -70,7 +70,7 @@ namespace ExtractorUI
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (Loading.Visibility == Visibility.Visible)
+            if (loading)
                 return;
 
             var chromeUrl = YoutubeUrl.GetChromeTabs();
